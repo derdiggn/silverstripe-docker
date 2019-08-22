@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  php:
+    image: silverstripe_php:latest
+    build:
+      context: .
+      target: silverstripe_php
+    depends_on:
+      - mysql
+    env_file: .env
+    volumes:
+      - .:/srv/silverstripe/:rw,cached
+
+  mysql:
+    image: percona:5.7 # TODO: check out maria db here
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-nopassword}
+      - MYSQL_DATABASE=${SS_DATABASE_NAME}
+      - MYSQL_USER=${SS_DATABASE_USERNAME}
+      - MYSQL_PASSWORD=${SS_DATABASE_PASSWORD}
+    volumes:
+      - ./var/mysql/data:/var/lib/mysql:rw,delegated
+    ports:
+      - "3306:3306"
+
+  nginx:
+    image: silverstripe_nginx:latest
+    build:
+      context: .
+      target: silverstripe_nginx
+    depends_on:
+      - php
+    volumes:
+      - ./public/assets:/srv/silverstripe/public/assets:ro
+    ports:
+      - "80:80"
+
+  mailhog:
+    # do not use in production!
+    image: mailhog/mailhog:latest
+    environment:
+      - MH_STORAGE=maildir
+    volumes:
+      - ./var/mailhog/maildir:/maildir:rw,delegated
+    ports:
+      - "8025:8025"
