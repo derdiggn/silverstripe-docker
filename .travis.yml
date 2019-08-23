@@ -1,0 +1,17 @@
+language: minimal
+
+services:
+  - docker
+
+script:
+  - docker build --target silverstripe_php -t derdiggn/silverstripe-docker:4-php-latest -t derdiggn/silverstripe-docker:4-php-7.3 -t derdiggn/silverstripe-docker:4.4-php-latest -t derdiggn/silverstripe-docker:4.4-php-7.3 .
+  - docker build --target silverstripe_nginx -t derdiggn/silverstripe-docker:4-nginx-latest -t derdiggn/silverstripe-docker:4-nginx-1.17 -t derdiggn/silverstripe-docker:4.4-nginx-latest -t derdiggn/silverstripe-docker:4.4-nginx-1.17 .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push derdiggn/silverstripe-docker:4-php-latest
+  - docker push derdiggn/silverstripe-docker:4-php-7.3
+  - docker push derdiggn/silverstripe-docker:4.4-php-latest
+  - docker push derdiggn/silverstripe-docker:4.4-php-7.3
+  - docker push derdiggn/silverstripe-docker:4-nginx-latest
+  - docker push derdiggn/silverstripe-docker:4-nginx-1.17
+  - docker push derdiggn/silverstripe-docker:4.4-nginx-latest
+  - docker push derdiggn/silverstripe-docker:4.4-nginx-1.17
