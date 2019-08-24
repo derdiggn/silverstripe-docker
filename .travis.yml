@@ -4,14 +4,14 @@ services:
   - docker
 
 script:
-  - docker build --target silverstripe_php -t derdiggn/silverstripe-docker:4-php-latest -t derdiggn/silverstripe-docker:4-php-7.3 -t derdiggn/silverstripe-docker:4.4-php-latest -t derdiggn/silverstripe-docker:4.4-php-7.3 .
-  - docker build --target silverstripe_nginx -t derdiggn/silverstripe-docker:4-nginx-latest -t derdiggn/silverstripe-docker:4-nginx-1.17 -t derdiggn/silverstripe-docker:4.4-nginx-latest -t derdiggn/silverstripe-docker:4.4-nginx-1.17 .
+  - docker build --target silverstripe_php -t $TRAVIS_REPO_SLUG:4-php-latest -t $TRAVIS_REPO_SLUG:4-php-7.3 -t $TRAVIS_REPO_SLUG:4.4-php-latest -t $TRAVIS_REPO_SLUG:4.4-php-7.3 .
+  - docker build --target silverstripe_nginx -t $TRAVIS_REPO_SLUG:4-nginx-latest -t $TRAVIS_REPO_SLUG:4-nginx-1.17 -t $TRAVIS_REPO_SLUG:4.4-nginx-latest -t $TRAVIS_REPO_SLUG:4.4-nginx-1.17 .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push derdiggn/silverstripe-docker:4-php-latest
-  - docker push derdiggn/silverstripe-docker:4-php-7.3
-  - docker push derdiggn/silverstripe-docker:4.4-php-latest
-  - docker push derdiggn/silverstripe-docker:4.4-php-7.3
-  - docker push derdiggn/silverstripe-docker:4-nginx-latest
-  - docker push derdiggn/silverstripe-docker:4-nginx-1.17
-  - docker push derdiggn/silverstripe-docker:4.4-nginx-latest
-  - docker push derdiggn/silverstripe-docker:4.4-nginx-1.17
+  - docker push $TRAVIS_REPO_SLUG:4-php-latest
+  - docker push $TRAVIS_REPO_SLUG:4-php-7.3
+  - docker push $TRAVIS_REPO_SLUG:4.4-php-latest
+  - docker push $TRAVIS_REPO_SLUG:4.4-php-7.3
+  - docker push $TRAVIS_REPO_SLUG:4-nginx-latest
+  - docker push $TRAVIS_REPO_SLUG:4-nginx-1.17
+  - docker push $TRAVIS_REPO_SLUG:4.4-nginx-latest
+  - docker push $TRAVIS_REPO_SLUG:4.4-nginx-1.17
