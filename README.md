@@ -5,6 +5,10 @@
 * Nginx 1.17 https://nginx.org/
 * PHP 7.3 https://www.php.net/ 
 
+## Repos
+GitHub: https://github.com/derdiggn/silverstripe-docker
+Docker Hub: https://hub.docker.com/r/derdiggn/silverstripe-docker/tags
+
 ## Port Map
 |Service|Internal|External|
 |---|---|---|
@@ -30,17 +34,63 @@ Open http://localhost with your browser
 $ bin/composer 
 ```
 
-### Build
+### Docker Compose
 ```bash
+# Build
 $ docker-compose build
-```
 
-### Run
-```bash
+# Start
 $ docker-compose up
+
+# Stop
+$ docker-compose down
 ```
 
-### Stop
+### Docker Images
 ```bash
-$ docker-compose down
+# Network
+docker network create silverstripe
+
+# PHP
+docker run -d --rm \
+    --name silverstripe_php \
+    --net silverstripe \
+    --net-alias php \
+    -e PHP_DATE_TIMEZONE=Europe/Berlin \
+    -e SS_DATABASE_SERVER=mysql.example.com \
+    -e SS_DATABASE_USERNAME=silverstripe \
+    -e SS_DATABASE_PASSWORD=silverstripe \
+    -e SS_DATABASE_NAME=silverstripe \
+    derdiggn/silverstripe-docker:4-php-latest
+
+# NGINX
+docker run -d --rm \
+    --name silverstripe_nginx \
+    --net silverstripe \
+    -p 80:80 \
+    derdiggn/silverstripe-docker:4-nginx-latest
+```
+
+## Enviroment Varse
+Example: https://github.com/derdiggn/silverstripe-docker/blob/master/.env.example
+
+## Silverstripe Core Variables
+see https://docs.silverstripe.org/en/4/getting_started/environment_management/#core-environment-variables
+
+## Custome Variables
+### PHP
+```BASH
+PHP_DATE_TIMEZONE=Europe/Berlin
+PHP_POST_MAX_SIZE=6M
+PHP_UPLOAD_MAX_FILESIZE=5M
+````
+
+### Silvrstripe
+```BASH
+SS_SMTP_HOST=mailhog
+SS_SMTP_PORT=1025
+SS_SMTP_ENCYPTION=
+SS_SMTP_USERNAME=
+SS_SMTP_PASSWORD=
+SS_SMTP_AUTH_MODE=
 ```
