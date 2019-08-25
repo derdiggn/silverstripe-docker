@@ -69,7 +69,7 @@ docker run -d --rm \
     --name silverstripe_nginx \
     --net silverstripe \
     -p 80:80 \
-    -v /path_to_your_silverstripe_project/assets:/srv/silverstripe/public/assets:ro \
+    -v /path_to_your_silverstripe_project/public/assets:/srv/silverstripe/public/assets:ro \
     derdiggn/silverstripe-docker:4-nginx-latest
 ```
 
@@ -79,7 +79,7 @@ Example: https://github.com/derdiggn/silverstripe-docker/blob/master/.env.exampl
 ## Silverstripe Core
 see https://docs.silverstripe.org/en/4/getting_started/environment_management/#core-environment-variables
 
-## Custome
+## Custom
 ### PHP
 ```BASH
 PHP_DATE_TIMEZONE=Europe/Berlin
